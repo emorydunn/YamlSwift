@@ -360,6 +360,25 @@ class YamlTests: XCTestCase {
   func testUnicodeSurrogates() {
     XCTAssert(try! Yaml.load("x: Dog‼🐶\ny: 𝒂𝑡") == ["x": "Dog‼🐶", "y": "𝒂𝑡"])
   }
+    
+  func testDynamicMemberLookup() {
+    var value = try! Yaml.load("""
+    point1:
+      x: 1
+      y: 2
+    point2:
+      x: 3
+      y: 4
+    """)
+    
+    XCTAssertEqual(value.point1.x.int, 1)
+    XCTAssertNil(value.point1.z.int)
+    
+    value.point1.z = 5
+    
+    XCTAssertEqual(value.point1.z.int, 5)
+    
+  }
   
 }
 

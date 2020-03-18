@@ -1,5 +1,6 @@
 import Foundation
 
+@dynamicMemberLookup
 public enum Yaml: Hashable {
   case null
   case bool(Bool)
@@ -45,6 +46,21 @@ public enum Yaml: Hashable {
             fatalError("`-` operator may only be used on .int or .double Yaml values")
         }
     }
+    
+    public subscript(dynamicMember member: String) -> Yaml {
+        get {
+            let yamlMember = Yaml(stringLiteral: member)
+            return self[yamlMember]
+        }
+        
+        set {
+            let yamlMember = Yaml(stringLiteral: member)
+            self[yamlMember] = newValue
+            
+        }
+        
+    }
+
 }
 
 extension Yaml {

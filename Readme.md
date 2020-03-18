@@ -299,7 +299,28 @@ print(value[0]["Swift"].count)  // nil
 ```
 
 
+### Dynamic Member Lookup
 
+Use dynamic member lookup to access nested values with "dot" syntax. 
+
+```swift
+var value = try! Yaml.load("""
+    point1:
+        x: 1
+        y: 2
+    point2:
+        x: 3
+        y: 4
+""")
+
+value.point1.x.int // 1
+value.point1.z.int // nil
+
+value.point1.z = 5
+
+value.point1.z.int // 5
+
+```
 
 
 ## License
